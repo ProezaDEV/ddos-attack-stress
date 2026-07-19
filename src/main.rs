@@ -1,4 +1,4 @@
-//! Authorized HTTP stress / load tester.
+﻿//! Authorized HTTP stress / load tester.
 //! Only use against systems you own or have explicit written permission to test.
 
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -59,13 +59,7 @@ async fn main() -> Result<()> {
         bail!("URL must start with http:// or https://");
     }
 
-    println!();
-    println!("  ddos-attack-stress · authorized load tester");
-    println!("  target      : {}", args.url);
-    println!("  method      : {}", args.method.to_uppercase());
-    println!("  concurrency : {}", args.concurrency);
-    println!("  requests    : {}", args.requests);
-    println!();
+    print_kali_panel(&args);
 
     let client = Client::builder()
         .timeout(Duration::from_secs(args.timeout))
@@ -81,9 +75,9 @@ async fn main() -> Result<()> {
     let pb = ProgressBar::new(args.requests);
     pb.set_style(
         ProgressStyle::with_template(
-            "{spinner:.red} [{bar:40.red/black}] {pos}/{len} · {per_sec} · ETA {eta}",
+            "{spinner:.red} [{bar:40.red/black}] {pos}/{len} Â· {per_sec} Â· ETA {eta}",
         )?
-        .progress_chars("█▉▊▋▌▍ "),
+        .progress_chars("â–ˆâ–‰â–Šâ–‹â–Œâ– "),
     );
 
     let started = Instant::now();
@@ -143,14 +137,52 @@ async fn main() -> Result<()> {
     let fail_n = fail.load(Ordering::Relaxed);
     let byte_n = bytes.load(Ordering::Relaxed);
 
-    println!("── results ─────────────────────────────");
+    println!("â”€â”€ results â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€");
     println!("  ok          : {ok_n}");
     println!("  failed      : {fail_n}");
     println!("  bytes       : {byte_n}");
     println!("  duration    : {elapsed:.2}s");
     println!("  throughput  : {:.1} req/s", args.requests as f64 / elapsed);
-    println!("────────────────────────────────────────");
+    println!("â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€");
     println!();
 
     Ok(())
 }
+
+fn print_kali_panel(args: &Args) {
+    // Painel estilo terminal Kali â€” texto ao abrir a tool
+    println!();
+    println!("\x1b[31mâ•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—\x1b[0m");
+    println!("\x1b[31mâ•‘\x1b[0m  \x1b[1;31mDDOS-ATTACK-STRESS\x1b[0m                                          \x1b[31mâ•‘\x1b[0m");
+    println!("\x1b[31mâ•‘\x1b[0m  by \x1b[1;37mProezaDEV\x1b[0m  Â·  \x1b[90mproezadev@gmail.com\x1b[0m                   \x1b[31mâ•‘\x1b[0m");
+    println!("\x1b[31mâ• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£\x1b[0m");
+    println!("\x1b[31mâ•‘\x1b[0m  mode        : \x1b[32mauthorized load test\x1b[0m                      \x1b[31mâ•‘\x1b[0m");
+    println!(
+        "\x1b[31mâ•‘\x1b[0m  target      : \x1b[36m{:<44}\x1b[0m \x1b[31mâ•‘\x1b[0m",
+        truncate(&args.url, 44)
+    );
+    println!(
+        "\x1b[31mâ•‘\x1b[0m  method      : \x1b[33m{:<44}\x1b[0m \x1b[31mâ•‘\x1b[0m",
+        args.method.to_uppercase()
+    );
+    println!(
+        "\x1b[31mâ•‘\x1b[0m  concurrency : \x1b[33m{:<44}\x1b[0m \x1b[31mâ•‘\x1b[0m",
+        args.concurrency.to_string()
+    );
+    println!(
+        "\x1b[31mâ•‘\x1b[0m  requests    : \x1b[33m{:<44}\x1b[0m \x1b[31mâ•‘\x1b[0m",
+        args.requests.to_string()
+    );
+    println!("\x1b[31mâ•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\x1b[0m");
+    println!();
+}
+
+fn truncate(s: &str, max: usize) -> String {
+    if s.chars().count() <= max {
+        format!("{s:<max$}")
+    } else {
+        let t: String = s.chars().take(max.saturating_sub(1)).collect();
+        format!("{t}â€¦")
+    }
+}
+
