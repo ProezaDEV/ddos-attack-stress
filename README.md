@@ -1,39 +1,39 @@
 <div align="center">
 
-<img src="assets/banner.png" width="100%" alt="ALERT · DDOS-ATTACK stress banner" />
+<img src="assets/banner.png" width="100%" alt="ALERT · DDOS-ATTACK" />
 
 # ddos-attack-stress
 
-**Authorized HTTP load / stress tester** · dark lab aesthetic · Rust
+**Teste de carga HTTP autorizado** · visual dark · Rust
 
 [![Rust](https://img.shields.io/badge/Rust-1.70+-0a0a0a?style=for-the-badge&logo=rust&logoColor=ef4444)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/License-MIT-7f1d1d?style=for-the-badge)](LICENSE)
-[![Auth](https://img.shields.io/badge/Use-Authorized%20targets%20only-ef4444?style=for-the-badge)](#aviso-legal)
+[![Autor](https://img.shields.io/badge/Autor-ProezaDEV-ef4444?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ProezaDEV)
 
 </div>
 
 ---
 
 > [!WARNING]
-> **Uso autorizado apenas.**  
-> Esta ferramenta existe para medir carga em **sistemas seus** ou com **permissão explícita por escrito**.  
-> Usar contra terceiros sem autorização é ilegal. O autor não se responsabiliza por abuso.
+> **Somente alvos autorizados.**  
+> Use apenas em sistemas **seus** ou com **permissão explícita**.  
+> Uso contra terceiros sem autorização é ilegal.
 
-## O que é
+## Sobre
 
-Ferramenta **legítima de stress / load test HTTP** em Rust.  
-Útil para ver como **sua** API ou site se comporta sob concorrência — sem spoofing, sem amplificação DNS, sem bypass de WAF/Cloudflare.
+Ferramenta de **stress / load test HTTP** criada por **ProezaDEV**.  
+Serve para medir como **seu** serviço se comporta sob concorrência.
 
-| Capacidade | Detalhe |
+| Recurso | Detalhe |
 | :--- | :--- |
-| HTTP load | GET / POST / PUT / HEAD concorrentes |
-| Métricas | ok / fail / bytes / req/s |
-| Gate de segurança | exige `--i-am-authorized` |
+| Load HTTP | GET / POST / PUT / HEAD em paralelo |
+| Métricas | ok / falha / bytes / req/s |
+| Segurança | exige `--i-am-authorized` para rodar |
 
 ## Requisitos
 
 - Rust 1.70+
-- Alvo HTTP(S) que você tem permissão para testar
+- URL HTTP(S) que você tem permissão para testar
 
 ## Build
 
@@ -46,7 +46,6 @@ Binário: `target/release/stress` (Windows: `stress.exe`)
 ## Uso
 
 ```bash
-# Exemplo — somente em host autorizado
 ./target/release/stress \
   --url https://seu-servidor.local/health \
   --concurrency 32 \
@@ -60,28 +59,28 @@ Binário: `target/release/stress` (Windows: `stress.exe`)
 | Flag | Descrição |
 | :--- | :--- |
 | `--url` | URL do alvo autorizado |
-| `-c, --concurrency` | Workers paralelos (padrão: 32) |
+| `-c, --concurrency` | Workers em paralelo (padrão: 32) |
 | `-r, --requests` | Total de requests (padrão: 1000) |
 | `-m, --method` | GET / POST / PUT / HEAD |
 | `--timeout` | Timeout em segundos |
 | `--i-am-authorized` | **Obrigatório** — confirma autorização |
 
-Sem `--i-am-authorized`, o programa **recusa** executar.
+Sem `--i-am-authorized`, o programa **não executa**.
 
 ## Aviso legal
 
-- Não use para atacar sites, jogos, APIs ou infraestrutura alheia.
-- Não é ferramenta de DDoS ofensivo (sem flood UDP, spoofing, reflection, evasion).
-- Para aprendizado e hardening dos **seus** serviços.
+- Não use para atacar sites, APIs ou infraestrutura de terceiros.
+- Responsabilidade pelo uso é de quem executa.
 
 ## Autor
 
-**ProezaDEV** · Full Stack · Ethical Hacking · PUC Minas
+**ProezaDEV**  
+Criação própria · Full Stack · Ethical Hacking
 
 ---
 
 <div align="center">
 
-**ddos-attack-stress** · authorized load only
+**ddos-attack-stress** · by ProezaDEV
 
 </div>
